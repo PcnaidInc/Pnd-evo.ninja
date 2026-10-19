@@ -19,8 +19,6 @@ export interface LocalDocumentData<
 export class LocalDocument<
   TMetadata extends BaseDocumentMetadata = BaseDocumentMetadata,
 > {
-  private _data: LocalDocumentData<TMetadata>;
-
   constructor(
     readonly id: string,
     private config: {
@@ -121,4 +119,6 @@ export class LocalDocument<
 
     this._data = document;
   }
+
+  private _data: LocalDocumentData<TMetadata>;
 }

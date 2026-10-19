@@ -31,24 +31,6 @@ export type MessageChunk = {
 };
 
 export class ContextualizedChat {
-
-  private _chunks: Record<ChatLogType, Chunk[]> = {
-    "persistent": [],
-    "temporary": []
-  };
-
-  private _rags: Record<ChatLogType, StandardRagBuilder<MessageChunk>>;
-
-  private _functionCallResultFirstChunks: Record<ChunkIdx, {
-    text: string,
-    metadata: BaseDocumentMetadata
-  }> = {};
-
-  private _lastTwoMsgs: Record<ChatLogType, PriorityContainer<ChunkIdx>> = {
-    "persistent": new PriorityContainer(2, (a, b) => b - a),
-    "temporary": new PriorityContainer(2, (a, b) => b - a),
-  };
-
   constructor(
     _context: AgentContext,
     private _rawChat: Chat,
@@ -201,6 +183,23 @@ export class ContextualizedChat {
 
     return;
   }
+
+  private _chunks: Record<ChatLogType, Chunk[]> = {
+    "persistent": [],
+    "temporary": []
+  };
+
+  private _rags: Record<ChatLogType, StandardRagBuilder<MessageChunk>>;
+
+  private _functionCallResultFirstChunks: Record<ChunkIdx, {
+    text: string,
+    metadata: BaseDocumentMetadata
+  }> = {};
+
+  private _lastTwoMsgs: Record<ChatLogType, PriorityContainer<ChunkIdx>> = {
+    "persistent": new PriorityContainer(2, (a, b) => b - a),
+    "temporary": new PriorityContainer(2, (a, b) => b - a),
+  };
 }
 
 // Helpers

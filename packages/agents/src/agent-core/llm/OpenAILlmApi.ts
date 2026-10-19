@@ -14,8 +14,6 @@ interface OpenAIError {
 export type FunctionDefinition = ChatCompletionTool.Function;
 
 export class OpenAILlmApi implements LlmApi {
-  private _api: OpenAIApi;
-
   constructor(
     private _apiKey: string,
     private _defaultModel: LlmModel,
@@ -117,4 +115,6 @@ export class OpenAILlmApi implements LlmApi {
       max_tokens: options.max_tokens
     });
   }
+
+  private _api: OpenAIApi;
 }

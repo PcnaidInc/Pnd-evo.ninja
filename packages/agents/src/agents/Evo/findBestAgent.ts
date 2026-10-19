@@ -6,6 +6,7 @@ import { DeveloperAgent } from "../Developer";
 import { CsvAnalystAgent } from "../CsvAnalyst";
 import { ResearcherAgent } from "../Researcher";
 import { SynthesizerAgent } from "../Synthesizer";
+
 import { InMemoryWorkspace } from "@evo-ninja/agent-utils";
 
 type AgentWithPrompts = {

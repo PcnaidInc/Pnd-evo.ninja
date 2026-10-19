@@ -1,9 +1,4 @@
 export class AgentVariables {
-  private _variables: Map<string, string> = new Map();
-  private _funcCounters: Map<string, number> = new Map();
-  private _saveThreshold: number = 1250;
-  private onVariableSet?: (key: string, value: string) => Promise<void>; 
-
   public static Prefix = "${";
   public static Suffix = "}";
 
@@ -90,4 +85,9 @@ export class AgentVariables {
 
     return value.length >= threshold;
   }
+
+  private _variables: Map<string, string> = new Map();
+  private _funcCounters: Map<string, number> = new Map();
+  private _saveThreshold: number = 1250;
+  private onVariableSet?: (key: string, value: string) => Promise<void>; 
 }

@@ -71,6 +71,10 @@ Please install the following:
 
 Now you're ready to go! You can run Evo through CLI or using the UI
 
+## CI
+
+The [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) workflow runs on pull requests and on pushes to the `dev` branch. It installs dependencies with `yarn --frozen-lockfile`, then runs the repository's existing `yarn lint`, `npx turbo run test`, and `yarn build` commands. Superseded runs on the same ref are cancelled via a concurrency group, and the workflow runs with read-only `contents` permissions.
+
 ## CLI
 
 Run evo in the terminal:

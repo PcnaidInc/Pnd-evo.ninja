@@ -25,25 +25,6 @@ export interface ChatFunctions {
 }
 
 export class ChatLogs {
-  private _logs: Record<ChatLogType, ChatLog> = {
-    "persistent": {
-      tokens: 0,
-      msgs: [],
-    },
-    "temporary": {
-      tokens: 0,
-      msgs: [],
-    },
-  };
-  private _tokensPerMsg: Record<ChatLogType, number[]> = {
-    "persistent": [],
-    "temporary": []
-  };
-  private _functions: ChatFunctions = {
-    tokens: 0,
-    definitions: []
-  };
-
   constructor(logs?: Record<ChatLogType, ChatLog>, tokensPerMsg?: Record<ChatLogType, number[]>, functions?: ChatFunctions) {
     if (logs) {
       this._logs = logs;
@@ -154,4 +135,23 @@ export class ChatLogs {
       "temporary": temporaryTokens
     });
   }
+
+  private _logs: Record<ChatLogType, ChatLog> = {
+    "persistent": {
+      tokens: 0,
+      msgs: [],
+    },
+    "temporary": {
+      tokens: 0,
+      msgs: [],
+    },
+  };
+  private _tokensPerMsg: Record<ChatLogType, number[]> = {
+    "persistent": [],
+    "temporary": []
+  };
+  private _functions: ChatFunctions = {
+    tokens: 0,
+    definitions: []
+  };
 }

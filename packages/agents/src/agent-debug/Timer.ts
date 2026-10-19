@@ -1,8 +1,4 @@
 export class Timer {
-  private _start: number = 0;
-  private _end: number = 0;
-  private _add: number = 0;
-
   start(): void {
     this._start = Date.now();
   }
@@ -18,7 +14,7 @@ export class Timer {
   duration(): number {
     const start = this._start;
     const end = this._end === 0 && this._start > 0 ? Date.now() : this._end;
-    return (end - start) + this._add;;
+    return (end - start) + this._add;
   }
 
   getHHMMSS(): string {
@@ -46,4 +42,8 @@ export class Timer {
   private _pad(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
   }
+
+  private _start: number = 0;
+  private _end: number = 0;
+  private _add: number = 0;
 }

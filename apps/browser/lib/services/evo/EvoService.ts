@@ -6,12 +6,9 @@ import {
 } from "./EvoThread";
 
 export class EvoService {
-  private _threads: Record<string, EvoThread> = {};
-  private _current: EvoThread | undefined;
-
   constructor(
     public user: string
-  ) { }
+  ) {}
 
   get current(): EvoThread | undefined {
     return this._current;
@@ -48,4 +45,7 @@ export class EvoService {
     }
     return this._threads[config.chatId];
   }
+
+  private _threads: Record<string, EvoThread> = {};
+  private _current: EvoThread | undefined;
 }

@@ -15,8 +15,6 @@ export interface AgentPluginConfig {
 }
 
 export class AgentPlugin extends Module<AgentPluginConfig> {
-  private _logger: Logger;
-
   constructor(config: AgentPluginConfig) {
     super(config);
     this._logger = this.config.logger;
@@ -41,13 +39,6 @@ export class AgentPlugin extends Module<AgentPluginConfig> {
     await this._logger.error(args.message);
     return true;
   }
-}
 
-export const agentPlugin: PluginFactory<AgentPluginConfig> = (
-  config: AgentPluginConfig
-) => {
-  return new PluginPackage(
-    new AgentPlugin(config),
-    manifest
-  );
-};
+  private _logger: Logger;
+}

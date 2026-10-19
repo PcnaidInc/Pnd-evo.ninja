@@ -1,1 +1,1 @@
-export * from "./ScriptWriter"
+export * from "./ScriptWriter";

@@ -1,6 +1,8 @@
 import { createEvoInstance } from "@/lib/services/evo/createEvoInstance";
 import { GoalApi, ProxyEmbeddingApi, ProxyLlmApi } from "@/lib/api";
 import { ChatLog } from "@/components/Chat";
+import { Chat } from "@/lib/queries/useChats";
+
 import {
   Evo,
   ChatLogType,
@@ -8,7 +10,6 @@ import {
   Workspace,
   InMemoryWorkspace,
 } from "@evo-ninja/agents";
-import { Chat } from "@/lib/queries/useChats";
 
 export interface EvoThreadConfig {
   chatId: string;
@@ -58,9 +59,6 @@ const INIT_STATE: EvoThreadState = {
 };
 
 export class EvoThread {
-  private _state: EvoThreadState;
-  private _callbacks?: EvoThreadCallbacks;
-
   protected constructor(
     private _config: EvoThreadConfig
   ) {
@@ -294,4 +292,7 @@ export class EvoThread {
       stepCounter++;
     }
   }
+
+  private _state: EvoThreadState;
+  private _callbacks?: EvoThreadCallbacks;
 }

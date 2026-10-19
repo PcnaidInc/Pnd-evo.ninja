@@ -4,9 +4,6 @@ import { type Artifact, v4 as uuid } from "agent-protocol";
 import path from "path";
 
 export class AgentProtocolWorkspace implements Workspace {
-  private _artifactLog: Map<string, Artifact>;
-  private _fsWorkspace: FileSystemWorkspace;
-
   constructor(directoryPath: string) {
     this._artifactLog = new Map();
     this._fsWorkspace = new FileSystemWorkspace(directoryPath);
@@ -84,11 +81,13 @@ export class AgentProtocolWorkspace implements Workspace {
   ): Promise<{ exitCode: number; stdout: string; stderr: string }> {
     return await this._fsWorkspace.exec(command, args);
   }
+
+  private _artifactLog: Map<string, Artifact>;
+  private _fsWorkspace: FileSystemWorkspace;
 }
 
-const createArtifact = (
-  filePath: string
-): Artifact => {
+const createArtifact = (filePath: string): Artifact => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   return {
     artifact_id: uuid(),
     agent_created: true,
