@@ -9,11 +9,6 @@ export type Recombiner<TItem, TRecombine> = (
 ) => Promise<TRecombine>;
 
 export class StandardRagBuilder<TItem> {
-  private _selector: (item: TItem) => string = (x) => x as unknown as string;
-  private readonly collection: LocalCollection<{ index: number }>;
-  private _items: TItem[];
-  private lastAddedItemIndex: number;
-
   constructor(
     context: AgentContext,
     collectionName?: string,
@@ -80,6 +75,11 @@ export class StandardRagBuilder<TItem> {
 
     this.lastAddedItemIndex = this._items.length - 1;
   }
+
+  private _selector: (item: TItem) => string = (x) => x as unknown as string;
+  private readonly collection: LocalCollection<{ index: number }>;
+  private _items: TItem[];
+  private lastAddedItemIndex: number;
 }
 
 export class QueryWithRecombine<TItem> {
@@ -88,7 +88,7 @@ export class QueryWithRecombine<TItem> {
     private readonly collection: LocalCollection<{ index: number }>,
     private readonly _items: TItem[],
     private readonly addToCollectionPromise: () => Promise<unknown>, 
-  ) { }
+  ) {}
 
   recombine<TRecombine>(recombiner: Recombiner<TItem, TRecombine>): Promise<TRecombine> {
     return recombiner(

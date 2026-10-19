@@ -20,14 +20,6 @@ import { findBestAgent } from "./findBestAgent";
 import { Timeout, Workspace } from "@evo-ninja/agent-utils";
 
 export class Evo extends Agent<GoalRunArgs> {
-  private _cChat: ContextualizedChat;
-  private _chunker: MessageChunker;
-  private previousPrediction: string | undefined;
-  private loopCounter: number = 0;
-  private previousAgent: Agent<unknown> | undefined;
-  private initializedAgents: Set<string> = new Set();
-  private goal: string = "";
-
   constructor(context: AgentContext, timeout?: Timeout, private enableQuickTermination?: boolean) {
     super(new AgentConfig(agentPrompts, [], context.scripts, timeout), context);
     this._chunker = new MessageChunker({
@@ -195,6 +187,14 @@ export class Evo extends Agent<GoalRunArgs> {
       message.content.length > this.maxContextChars() * 0.0625
     );
   };
+
+  private _cChat: ContextualizedChat;
+  private _chunker: MessageChunker;
+  private previousPrediction: string | undefined;
+  private loopCounter: number = 0;
+  private previousAgent: Agent<unknown> | undefined;
+  private initializedAgents: Set<string> = new Set();
+  private goal: string = "";
 }
 
 const insertPersonaAsFirstMsg = (

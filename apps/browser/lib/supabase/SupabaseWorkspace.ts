@@ -1,6 +1,7 @@
+import { Database } from "./dbTypes";
+
 import { DirectoryEntry, Workspace } from "@evo-ninja/agent-utils";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "./dbTypes";
 import * as path from "path-browserify";
 
 const BUCKET_NAME = "workspaces";

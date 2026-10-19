@@ -1,7 +1,8 @@
 import { AgentFunctionBase } from "./AgentFunctionBase";
-import { Result, ResultErr, ResultOk } from "@polywrap/result";
 import { Agent } from "../../agents/utils";
 import { AgentContext, AgentOutput, LlmApi, LlmModel, LlmQueryBuilder, Tokenizer } from "@/agent-core";
+
+import { Result, ResultErr, ResultOk } from "@polywrap/result";
 
 export abstract class LlmAgentFunctionBase<TParams> extends AgentFunctionBase<TParams> {
   constructor(protected llm: LlmApi, protected tokenizer: Tokenizer) {
@@ -24,7 +25,7 @@ export abstract class LlmAgentFunctionBase<TParams> extends AgentFunctionBase<TP
     runArgs: TRunArgs, 
     context: AgentContext
   ): Promise<Result<{output: AgentOutput, messages: string[]}, string | undefined>> {
-    let iterator = agent.run(runArgs);
+    const iterator = agent.run(runArgs);
 
     const messages = [];
 

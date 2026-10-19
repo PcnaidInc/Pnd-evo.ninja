@@ -1,8 +1,8 @@
 import { AgentProtocolWorkspace } from "./agent-protocol";
 import { createApp } from "./app";
-import { AgentOutput } from "@evo-ninja/agents";
 
-import Agent, {
+import { AgentOutput } from "@evo-ninja/agents";
+import AgentProtocol, {
   StepHandler,
   StepInput,
   StepResult,
@@ -12,23 +12,19 @@ import { exec } from "child_process";
 import path from "path";
 import { program } from "commander";
 
-const rootDir = path.resolve(
-  path.join(__dirname, "../../../")
-);
+const rootDir = path.resolve(path.join(__dirname, "../../../"));
 
-const sessionsDir = process.env.AGENT_WORKSPACE || path.join(rootDir, "sessions");
+const sessionsDir =
+  process.env.AGENT_WORKSPACE || path.join(rootDir, "sessions");
 
-const options = program
-  .option("-c, --clean")
-  .parse()
-  .opts();
+const options = program.option("-c, --clean").parse().opts();
 
 function removeNewScripts() {
   return new Promise(function (resolve, reject) {
     exec(
       "git clean -fd",
       { cwd: path.join(__dirname, "../../../scripts") },
-      (error, stdout, stderr) => {
+      (error, stdout, _stderr) => {
         if (error) {
           reject(error);
           return;
@@ -44,11 +40,8 @@ async function taskHandler(
   id: string,
   input: TaskInput | null
 ): Promise<StepHandler> {
-
   const customWorkspacePath = path.join(sessionsDir, id);
-  const customWorkspace = new AgentProtocolWorkspace(
-    customWorkspacePath
-  );
+  const customWorkspace = new AgentProtocolWorkspace(customWorkspacePath);
   const app = await createApp({
     rootDir,
     customWorkspace,
@@ -62,7 +55,7 @@ async function taskHandler(
   );
   await app.debugLog?.goalStart(input);
 
-  let iterator = app.evo.run({ goal: input });
+  const iterator = app.evo.run({ goal: input });
 
   async function stepHandler(stepInput: StepInput | null): Promise<StepResult> {
     await app.logger.info(`Running step....`);
@@ -119,6 +112,6 @@ async function taskHandler(
   }
   return stepHandler;
 }
-Agent.handleTask(taskHandler, {
+AgentProtocol.handleTask(taskHandler, {
   workspace: sessionsDir
 }).start();
