@@ -2,7 +2,7 @@ import { AgentProtocolWorkspace } from "./agent-protocol";
 import { createApp } from "./app";
 
 import { AgentOutput } from "@evo-ninja/agents";
-import AgentProtocol, {
+import agentProtocol, {
   StepHandler,
   StepInput,
   StepResult,
@@ -102,16 +102,16 @@ async function taskHandler(
         ? response.value.message
         : "No Message";
 
-    return {
-      is_last: response.done,
-      output: JSON.stringify(outputMessage),
-      artifacts,
-      //@ts-ignore
-      name: outputTitle,
-    };
+    const result = {} as StepResult;
+    result.is_last = response.done;
+    result.output = JSON.stringify(outputMessage);
+    result.artifacts = artifacts;
+    Object.assign(result, { name: outputTitle });
+    return result;
   }
   return stepHandler;
 }
-AgentProtocol.handleTask(taskHandler, {
-  workspace: sessionsDir
+agentProtocol.handleTask(taskHandler, {
+  workspace: sessionsDir,
 }).start();
+

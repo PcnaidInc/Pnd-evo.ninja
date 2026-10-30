@@ -87,13 +87,12 @@ export class AgentProtocolWorkspace implements Workspace {
 }
 
 const createArtifact = (filePath: string): Artifact => {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  return {
-    artifact_id: uuid(),
-    agent_created: true,
-    file_name: path.basename(filePath),
-    relative_path:
-      path.dirname(filePath) === "." ? null : path.dirname(filePath),
-    created_at: Date.now().toString(),
-  };
+  const artifact = {} as Artifact;
+  artifact.artifact_id = uuid();
+  artifact.agent_created = true;
+  artifact.file_name = path.basename(filePath);
+  artifact.relative_path =
+    path.dirname(filePath) === "." ? null : path.dirname(filePath);
+  artifact.created_at = Date.now().toString();
+  return artifact;
 };

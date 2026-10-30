@@ -1,4 +1,5 @@
 import { createApp } from "./app";
+
 import { Logger, Timeout } from "@evo-ninja/agent-utils";
 import { AgentOutput } from "@evo-ninja/agents";
 import { program } from "commander";
@@ -35,8 +36,9 @@ export async function cli(): Promise<void> {
 
     const iterator = app.evo.run({ goal });
     let stepCounter = 1;
+    let running = true;
 
-    while (true) {
+    while (running) {
       await app.debugLog?.stepStart();
       await app.logger.info(`## Step ${stepCounter}\n`);
       const response = await iterator.next();
@@ -59,13 +61,11 @@ export async function cli(): Promise<void> {
         } else {
           await logMessage(response.value.value);
         }
-        break;
-      }
-
-      if (response.value && response.value) {
+        running = false;
+      } else if (response.value && response.value) {
         await logMessage(response.value);
+        stepCounter++;
       }
-      stepCounter++;
     }
 
     await app.debugLog?.goalEnd();
@@ -75,7 +75,8 @@ export async function cli(): Promise<void> {
   let goalCounter = 0;
 
   await app.evo.init();
-  while (true) {
+  let active = true;
+  while (active) {
     if (!goal) {
       goal = await app.logger.prompt("Enter your goal");
     } else if (goalCounter === 0) {
@@ -85,10 +86,12 @@ export async function cli(): Promise<void> {
       app.evo.reset();
     }
 
-    if (!goal || goal.toLocaleLowerCase() === "exit") break;
-
-    ++goalCounter;
-    await handleGoal(goal);
+    if (!goal || goal.toLocaleLowerCase() === "exit") {
+      active = false;
+    } else {
+      ++goalCounter;
+      await handleGoal(goal);
+    }
   }
 
   return Promise.resolve();

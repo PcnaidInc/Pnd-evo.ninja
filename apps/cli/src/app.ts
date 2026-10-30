@@ -7,7 +7,7 @@ import {
   LlmApi,
   LlmModel,
   OpenAILlmApi,
-  OpenAIEmbeddingAPI
+  OpenAIEmbeddingAPI,
 } from "@evo-ninja/agents";
 import {
   Env,
@@ -23,7 +23,7 @@ import { FileSystemWorkspace } from "@evo-ninja/agent-utils-fs";
 import dotenv from "dotenv";
 import readline from "readline";
 import path from "path";
-import cl100k_base from "gpt-tokenizer/cjs/encoding/cl100k_base";
+import cl100kBase from "gpt-tokenizer/cjs/encoding/cl100k_base";
 
 dotenv.config({
   path: path.join(__dirname, "../../../.env"),
@@ -40,7 +40,7 @@ const prompt = (fileLogger: FileLogger) => (query: string) =>
       await fileLogger.info(`# User\n**${query}:** ${answer}`);
       resolve(answer);
     };
-    rl.question(`${query}: `, callback)
+    rl.question(`${query}: `, callback);
   });
 
 export interface App {
@@ -49,7 +49,7 @@ export interface App {
   fileLogger: FileLogger;
   consoleLogger: ConsoleLogger;
   debugLog?: DebugLog;
-  chat: Chat
+  chat: Chat;
 }
 
 export interface AppConfig {
@@ -106,7 +106,7 @@ export async function createApp(config?: AppConfig): Promise<App> {
   );
 
   // Chat
-  const chat = new Chat(cl100k_base);
+  const chat = new Chat(cl100kBase);
 
   // Debug Logging
   let debugLog: DebugLog | undefined;
@@ -121,7 +121,7 @@ export async function createApp(config?: AppConfig): Promise<App> {
   const embedding = new OpenAIEmbeddingAPI(
     env.OPENAI_API_KEY,
     logger,
-    cl100k_base,
+    cl100kBase,
     env.OPENAI_API_BASE_URL
   );
 
@@ -135,7 +135,7 @@ export async function createApp(config?: AppConfig): Promise<App> {
       userWorkspace,
       internals,
       env,
-      scripts,
+      scripts
     ),
     config?.timeout
   );
